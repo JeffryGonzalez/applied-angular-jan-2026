@@ -1,5 +1,4 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { R } from 'node_modules/msw/lib/core/HttpResponse-Cw4ELwIN.mjs';
 
 type CounterState = {
   current: number;

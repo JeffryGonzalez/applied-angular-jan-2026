@@ -1,7 +1,7 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { tasksStore } from '../stores/tasks';
+import { tasksStore } from '../../stores/tasks';
 
 // Creating a provider WHEREEVER means you are saying "create a new instance of this thing when injected here"
 @Component({

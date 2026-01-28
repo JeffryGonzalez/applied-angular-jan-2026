@@ -24,7 +24,7 @@ export class Home {
     },
     {
       title: 'Forms Example',
-      path: 'form'
-    }
+      path: 'form',
+    },
   ]);
 }

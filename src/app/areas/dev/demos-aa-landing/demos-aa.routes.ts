@@ -7,7 +7,7 @@ import { ComputingPage } from './internal/pages/computing';
 import { EffectingPage } from './internal/pages/effecting';
 import { LinkedSignalsPage } from './internal/pages/linked-signals';
 import { ServicesPage } from './internal/pages/services';
-import {FormExamplePage} from '@ht/dev/demos-aa-landing/internal/pages/form-example';
+import { FormExamplePage } from '@ht/dev/demos-aa-landing/internal/pages/form-example';
 
 export const demosAaFeatureRoutes: Routes = [
   {
@@ -46,7 +46,7 @@ export const demosAaFeatureRoutes: Routes = [
       {
         path: 'form',
         component: FormExamplePage,
-      }
+      },
     ],
   },
 ];

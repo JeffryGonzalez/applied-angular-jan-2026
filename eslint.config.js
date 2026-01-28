@@ -18,6 +18,7 @@ export default defineConfig([
     'system-tests/**',
     '*/**/mockServiceWorker.js',
     '*/**/__mocks__/**',
+    '*/**/stories/**/*.ts',
   ]),
   {
     files: ['**/*.html'],

@@ -7,7 +7,6 @@ import { CurrencyPipe } from '@angular/common';
   imports: [CurrencyPipe],
   template: `
     <div class="space-y-4">
-
       <div class="card bg-base-200 shadow">
         <div class="card-body">
           <h3 class="card-title">Cart Items</h3>
@@ -95,7 +94,6 @@ import { CurrencyPipe } from '@angular/common';
   `,
 })
 export class ShoppingCartComponent {
-
   cartItems = signal([
     { id: 1, name: 'Laptop', price: 999.99, quantity: 1 },
     { id: 2, name: 'Mouse', price: 29.99, quantity: 2 },

@@ -106,8 +106,7 @@ export class Clock {
 }
 ```
 
-
-## Home 
+## Home
 
 ```typescript
 import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';

@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { Clock } from '../widgets/clock';
-import { tasksStore } from '../stores/tasks';
+import { Clock } from '../../widgets/clock';
+import { tasksStore } from '../../stores/tasks';
 
 @Component({
   selector: 'app-tasks-pages-record',

@@ -1,9 +1,9 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
-import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { ButtonRound } from './widgets/button-round';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { ButtonReset } from './widgets/button-reset';
+import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { counterStore } from '../stores/counter';
+import { ButtonReset } from './widgets/button-reset';
+import { ButtonRound } from './widgets/button-round';
 
 @Component({
   selector: 'app-counter-pages-communications',

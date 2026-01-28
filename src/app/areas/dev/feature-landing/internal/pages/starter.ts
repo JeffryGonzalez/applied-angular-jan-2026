@@ -1,7 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { MarkdownComponent, provideMarkdown } from 'ngx-markdown';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { RouterOutlet } from '@angular/router';
+import { provideMarkdown } from 'ngx-markdown';
 
 @Component({
   selector: 'app-dev-pages-page',

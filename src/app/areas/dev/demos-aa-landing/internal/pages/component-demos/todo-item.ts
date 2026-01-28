@@ -13,10 +13,7 @@ import { Component, input, output } from '@angular/core';
         class="checkbox checkbox-primary"
       />
       <div class="flex-1">
-        <span
-          [class.line-through]="completed()"
-          [class.opacity-50]="completed()"
-        >
+        <span [class.line-through]="completed()" [class.opacity-50]="completed()">
           {{ text() }}
         </span>
       </div>

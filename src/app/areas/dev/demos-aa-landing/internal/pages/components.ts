@@ -146,9 +146,10 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                 <div class="mockup-code mt-2 max-h-48 overflow-y-auto">
                   @for (log of eventLogs(); track $index) {
                     <pre [attr.data-prefix]="$index + 1"><code>{{ log }}</code></pre>
-                  }
-                  @empty {
-                    <pre data-prefix="—"><code class="text-base-content/50">No events yet...</code></pre>
+                  } @empty {
+                    <pre
+                      data-prefix="—"
+                    ><code class="text-base-content/50">No events yet...</code></pre>
                   }
                 </div>
               </div>
@@ -269,7 +270,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                   <h3 class="card-title text-base">Current Values</h3>
                 </div>
                 <div class="mockup-code">
-                  <pre data-prefix="$"><code>{{ { firstName: firstName(), lastName: lastName() } | json }}</code></pre>
+                  <pre
+                    data-prefix="$"
+                  ><code>{{ { firstName: firstName(), lastName: lastName() } | json }}</code></pre>
                 </div>
               </div>
             </div>
@@ -299,9 +302,7 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               </svg>
               <div>
                 <div class="font-bold">Todo List Demo</div>
-                <div class="text-sm">
-                  Demonstrating multiple components with inputs and outputs
-                </div>
+                <div class="text-sm">Demonstrating multiple components with inputs and outputs</div>
               </div>
             </div>
 
@@ -315,8 +316,7 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                   (toggleCompleted)="toggleTodo(todo.id)"
                   (deleteItem)="deleteTodo(todo.id)"
                 />
-              }
-              @empty {
+              } @empty {
                 <div class="alert">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -451,8 +451,8 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
             </h4>
             <div class="space-y-3">
               <p>
-                Signal-based outputs replace <code class="badge badge-sm">&#64;Output()</code> with a
-                simpler, more consistent API:
+                Signal-based outputs replace <code class="badge badge-sm">&#64;Output()</code> with
+                a simpler, more consistent API:
               </p>
               <div class="mockup-code">
                 <pre data-prefix="1"><code>// Output with typed value</code></pre>
@@ -504,7 +504,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                 <pre data-prefix="3"><code></code></pre>
                 <pre data-prefix="4"><code>// Automatically updates when inputs change</code></pre>
                 <pre data-prefix="5"><code>fullName = computed(() => {{'{'}}</code></pre>
-                <pre data-prefix="6"><code>  return this.firstName() + ' ' + this.lastName();</code></pre>
+                <pre
+                  data-prefix="6"
+                ><code>  return this.firstName() + ' ' + this.lastName();</code></pre>
                 <pre data-prefix="7"><code>{{'}'}});</code></pre>
               </div>
               <div class="stats shadow">
@@ -534,7 +536,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                 <pre data-prefix="2"><code>value = model&lt;string&gt;('');</code></pre>
                 <pre data-prefix="3"><code></code></pre>
                 <pre data-prefix="4"><code>// In parent template</code></pre>
-                <pre data-prefix="5"><code>&lt;app-text-input [(value)]="firstName" /&gt;</code></pre>
+                <pre
+                  data-prefix="5"
+                ><code>&lt;app-text-input [(value)]="firstName" /&gt;</code></pre>
               </div>
               <div class="grid gap-3 md:grid-cols-2">
                 <div class="alert alert-info">
@@ -575,7 +579,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                     <h5 class="card-title text-sm">Parent Component</h5>
                     <ul class="space-y-1 text-xs">
                       <li>✓ Manages state with <code class="badge badge-xs">signal()</code></li>
-                      <li>✓ Computes statistics with <code class="badge badge-xs">computed()</code></li>
+                      <li>
+                        ✓ Computes statistics with <code class="badge badge-xs">computed()</code>
+                      </li>
                       <li>✓ Passes data down via inputs</li>
                       <li>✓ Handles events from children</li>
                     </ul>
@@ -611,8 +617,8 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               <div class="alert">
                 <span class="badge badge-secondary">2</span>
                 <span
-                  ><strong>output()</strong> replaces &#64;Output() and EventEmitter for cleaner event
-                  handling</span
+                  ><strong>output()</strong> replaces &#64;Output() and EventEmitter for cleaner
+                  event handling</span
                 >
               </div>
               <div class="alert">
@@ -632,8 +638,8 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               <div class="alert alert-success">
                 <span class="badge badge-success">5</span>
                 <span
-                  >All of these work together to create <strong>predictable, reactive</strong>
-                  component communication!</span
+                  >All of these work together to create
+                  <strong>predictable, reactive</strong> component communication!</span
                 >
               </div>
             </div>

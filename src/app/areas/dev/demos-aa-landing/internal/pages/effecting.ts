@@ -182,7 +182,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               @if (lastFeedback()) {
                 <div
                   class="alert"
-                  [class.alert-warning]="(lastFeedback().includes('high') || lastFeedback().includes('low'))"
+                  [class.alert-warning]="
+                    lastFeedback().includes('high') || lastFeedback().includes('low')
+                  "
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +303,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
           <div class="card-body">
             <h3 class="card-title">How the Effect Works</h3>
             <div class="mockup-code">
-              <pre data-prefix="1"><code>// Effect automatically runs when isGameActive() changes</code></pre>
+              <pre
+                data-prefix="1"
+              ><code>// Effect automatically runs when isGameActive() changes</code></pre>
               <pre data-prefix="2"><code>constructor() {{'{'}}</code></pre>
               <pre data-prefix="3"><code>  effect(() => {{'{'}}</code></pre>
               <pre data-prefix="4"><code>    if (this.isGameActive()) {{'{'}}</code></pre>
@@ -355,8 +359,8 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               />
             </svg>
             <span
-              ><strong>Effects</strong> allow you to perform side effects (like timers, logging,
-              API calls) that automatically run when signals they depend on change.</span
+              ><strong>Effects</strong> allow you to perform side effects (like timers, logging, API
+              calls) that automatically run when signals they depend on change.</span
             >
           </div>
 
@@ -573,9 +577,7 @@ export class EffectingPage {
   guesses = signal<number[]>([]);
   timeRemaining = signal(60);
   isGameActive = computed(() => {
-    return (
-      this.timeRemaining() > 0 && this.guesses().length < 5 && !this.hasWon()
-    );
+    return this.timeRemaining() > 0 && this.guesses().length < 5 && !this.hasWon();
   });
   lastFeedback = signal<string>('');
   gameOverReason = signal<string>('');
@@ -588,7 +590,7 @@ export class EffectingPage {
   hasWon = computed(() => this.guesses().includes(this.secretNumber()));
   gameStatus = computed(() => {
     if (this.hasWon()) return '🎉 Winner!';
-    if (!this.isGameActive() && this.timeRemaining() === 0) return '⏰ Time\'s up!';
+    if (!this.isGameActive() && this.timeRemaining() === 0) return "⏰ Time's up!";
     if (!this.isGameActive() && this.attemptsLeft() === 0) return '😢 No more tries';
     return '🎮 Playing...';
   });
@@ -662,4 +664,3 @@ export class EffectingPage {
     this.currentGuess = 0;
   }
 }
-

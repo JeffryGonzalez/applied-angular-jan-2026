@@ -1,9 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import {form, FormField, required, email, maxLength} from '@angular/forms/signals';
+import { form, FormField, required, email, maxLength } from '@angular/forms/signals';
 import { FormInputComponent } from '@ht/shared/ui-common/forms/inputs/form-input';
 import { signal } from '@angular/core';
-
 
 type PersonalInformation = {
   firstName: string;
@@ -14,14 +13,14 @@ type PersonalInformation = {
   region: string;
   postalCode: string;
   country: string;
-}
+};
 @Component({
   selector: 'ht-demos-form-example',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [PageLayout, FormInputComponent, FormField],
   template: `
     <app-ui-page title="Form Example">
-      <form  (submit)="handleSubmit($event)"  class="space-y-8">
+      <form (submit)="handleSubmit($event)" class="space-y-8">
         <!-- Profile Section -->
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
@@ -29,8 +28,6 @@ type PersonalInformation = {
             <p class="text-sm opacity-70">
               This information will be displayed publicly so be careful what you share.
             </p>
-
-
           </div>
         </div>
 
@@ -38,9 +35,7 @@ type PersonalInformation = {
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
             <h2 class="card-title">Personal Information</h2>
-            <p class="text-sm opacity-70">
-              Use a permanent address where you can receive mail.
-            </p>
+            <p class="text-sm opacity-70">Use a permanent address where you can receive mail.</p>
 
             <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-6">
               <!-- First Name -->
@@ -81,32 +76,31 @@ type PersonalInformation = {
 
               <!-- Country -->
               <div class="col-span-full sm:col-span-1">
-              <div class="form-control sm:col-span-1">
-                <label class="label">
-                  <span class="label-text font-medium">Country</span>
-                </label>
-                <select
-                  id="country"
+                <div class="form-control sm:col-span-1">
+                  <label class="label">
+                    <span class="label-text font-medium">Country</span>
+                  </label>
+                  <select
+                    id="country"
+                    [formField]="form.country"
+                    autocomplete="country-name"
+                    class="select select-bordered w-full"
+                  >
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>Mexico</option>
+                  </select>
+                </div>
 
-                  [formField]="form.country"
-                  autocomplete="country-name"
-                  class="select select-bordered w-full"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-
-              <!-- Street Address -->
-              <app-ui-form-input
-                label="Street address"
-                [formField]="form.streetAddress"
-                id="streetAddress"
-                autocomplete="street-address"
-                placeholder="123 Main St"
-                containerClass="col-span-full"
-              />
+                <!-- Street Address -->
+                <app-ui-form-input
+                  label="Street address"
+                  [formField]="form.streetAddress"
+                  id="streetAddress"
+                  autocomplete="street-address"
+                  placeholder="123 Main St"
+                  containerClass="col-span-full"
+                />
               </div>
               <!-- City -->
               <app-ui-form-input
@@ -137,19 +131,17 @@ type PersonalInformation = {
                 placeholder="12345"
                 containerClass="sm:col-span-2"
               />
-
             </div>
           </div>
         </div>
-
 
         <!-- Notifications Section -->
         <div class="card bg-base-200 shadow-xl">
           <div class="card-body">
             <h2 class="card-title">Notifications</h2>
             <p class="text-sm opacity-70">
-              We'll always let you know about important changes, but you pick what else you
-              want to hear about.
+              We'll always let you know about important changes, but you pick what else you want to
+              hear about.
             </p>
 
             <div class="mt-6 space-y-8">
@@ -212,7 +204,6 @@ type PersonalInformation = {
               </fieldset>
 
               <!-- Push Notifications -->
-
             </div>
           </div>
         </div>
@@ -230,7 +221,7 @@ type PersonalInformation = {
 export class FormExamplePage {
   // Form controls
 
-  initialFormState = signal<PersonalInformation>( {
+  initialFormState = signal<PersonalInformation>({
     firstName: '',
     lastName: '',
     email: '',
@@ -238,26 +229,24 @@ export class FormExamplePage {
     city: '',
     region: '',
     postalCode: '',
-    country: ''
+    country: '',
   });
-   form = form(this.initialFormState, fs => {
-     required(fs.firstName);
-      required(fs.lastName);
-      maxLength(fs.firstName, 30);
-      maxLength(fs.lastName, 30);
-      required(fs.email);
-      email(fs.email);
-      required(fs.streetAddress);
-      required(fs.city);
-      required(fs.region);
-      required(fs.postalCode);
-      required(fs.country);
-   });
-  onSubmit(): void {
-
-  }
+  form = form(this.initialFormState, (fs) => {
+    required(fs.firstName);
+    required(fs.lastName);
+    maxLength(fs.firstName, 30);
+    maxLength(fs.lastName, 30);
+    required(fs.email);
+    email(fs.email);
+    required(fs.streetAddress);
+    required(fs.city);
+    required(fs.region);
+    required(fs.postalCode);
+    required(fs.country);
+  });
+  onSubmit(): void {}
 
   protected handleSubmit(e: SubmitEvent) {
-      e.preventDefault();
+    e.preventDefault();
   }
 }

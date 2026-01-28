@@ -1,15 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  model, computed,
-} from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-
-} from '@angular/forms';
-import {DisabledReason, FormValueControl, ValidationError} from '@angular/forms/signals';
+import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormValueControl } from '@angular/forms/signals';
 
 /**
  * A reusable form input component that works with Angular Signal Forms.
@@ -32,22 +23,24 @@ import {DisabledReason, FormValueControl, ValidationError} from '@angular/forms/
   template: `
     <div class="form-control">
       @if (label()) {
-        <label class="label" [for]="id()" >
+        <label class="label" [for]="id()">
           <span class="label-text font-medium">{{ label() }}</span>
-
         </label>
       }
-      <input [value]="value()" (input)="onChange($any($event.target).value)"
-             (focusin)="touched.set(true)"
+      <input
+        [value]="value()"
+        (input)="onChange($any($event.target).value)"
+        (focusin)="touched.set(true)"
         type="text"
         [id]="id()"
         [placeholder]="placeholder()"
         [autocomplete]="autocomplete()"
         [disabled]="disabled()"
         [readonly]="readonly()"
-        [hidden]="hidden()" [required]="required()"
-             [class.input-error]="invalid() && (dirty() || touched())"
-             [class.input-success]="(!invalid() && (dirty() || touched()))"
+        [hidden]="hidden()"
+        [required]="required()"
+        [class.input-error]="invalid() && (dirty() || touched())"
+        [class.input-success]="!invalid() && (dirty() || touched())"
         class="input input-bordered w-full"
       />
       @if (hint()) {
@@ -58,10 +51,8 @@ import {DisabledReason, FormValueControl, ValidationError} from '@angular/forms/
     </div>
   `,
   host: {
-    'class': ' w-full',
-
-
-  }
+    class: ' w-full',
+  },
 })
 export class FormInputComponent implements FormValueControl<string> {
   // Input properties
@@ -88,7 +79,4 @@ export class FormInputComponent implements FormValueControl<string> {
   hidden = input<boolean>(false);
 
   // errors = input<readonly ValidationError.WithField[]>([]);
-
-
-
 }

@@ -248,7 +248,9 @@ import { CurrencyPipe, DecimalPipe } from '@angular/common';
                 <div class="mockup-code">
                   <pre data-prefix="1"><code>salePrice = linkedSignal(() => {{ '{' }}</code></pre>
                   <pre data-prefix="2"><code>  const base = this.basePrice();</code></pre>
-                  <pre data-prefix="3"><code>  const discount = this.discountPercent() / 100;</code></pre>
+                  <pre
+                    data-prefix="3"
+                  ><code>  const discount = this.discountPercent() / 100;</code></pre>
                   <pre data-prefix="4"><code>  return base * (1 - discount);</code></pre>
                   <pre data-prefix="5"><code>{{ '}' }});</code></pre>
                 </div>

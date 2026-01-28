@@ -141,14 +141,14 @@ export class App {
     },
 
     {
-      path: '/jefflabs',
-      title: 'Lab 1 (Jeff)',
-      icon: 'lucideChessKing',
-    },
-    {
       path: '/lab1',
       title: 'Lab 1',
       icon: 'lucideFlaskConical',
+    },
+    {
+      path: '/tasks',
+      title: 'Task List',
+      icon: 'lucideFileCheck',
     },
   ]);
 }

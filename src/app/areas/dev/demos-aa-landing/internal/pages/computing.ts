@@ -101,7 +101,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               <pre data-prefix="4"><code></code></pre>
               <pre data-prefix="5"><code>// Computed signal - auto-updates!</code></pre>
               <pre data-prefix="6"><code>fullName = computed(() => {{'{'}}</code></pre>
-              <pre data-prefix="7"><code>  return this.firstName() + ' ' + this.lastName();</code></pre>
+              <pre
+                data-prefix="7"
+              ><code>  return this.firstName() + ' ' + this.lastName();</code></pre>
               <pre data-prefix="8"><code>{{'}'}});</code></pre>
             </div>
           </div>
@@ -115,8 +117,8 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
             </h4>
             <div class="space-y-3">
               <p>
-                The shopping cart demonstrates <strong>chained computed signals</strong> where
-                later computations depend on earlier ones:
+                The shopping cart demonstrates <strong>chained computed signals</strong> where later
+                computations depend on earlier ones:
               </p>
               <div class="card bg-base-200">
                 <div class="card-body p-4">
@@ -206,7 +208,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
               </div>
               <div class="mockup-code">
                 <pre data-prefix="1"><code>age = computed(() => {{'{'}}</code></pre>
-                <pre data-prefix="2"><code>  const currentYear = new Date().getFullYear();</code></pre>
+                <pre
+                  data-prefix="2"
+                ><code>  const currentYear = new Date().getFullYear();</code></pre>
                 <pre data-prefix="3"><code>  return currentYear - this.birthYear();</code></pre>
                 <pre data-prefix="4"><code>{{'}'}});</code></pre>
               </div>
@@ -226,7 +230,9 @@ import { ConceptNotesModal } from '../../ui-data-display/concept-notes-modal';
                 sorting data:
               </p>
               <div class="mockup-code">
-                <pre data-prefix="1"><code>filteredAndSortedUsers = computed(() => {{'{'}}</code></pre>
+                <pre
+                  data-prefix="1"
+                ><code>filteredAndSortedUsers = computed(() => {{'{'}}</code></pre>
                 <pre data-prefix="2"><code>  let result = this.users();</code></pre>
                 <pre data-prefix="3"><code>  </code></pre>
                 <pre data-prefix="4"><code>  // Filter by search term</code></pre>

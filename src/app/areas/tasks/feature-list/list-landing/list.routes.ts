@@ -2,9 +2,9 @@ import { Routes } from '@angular/router';
 import { Home } from './internal/home';
 import { HomePage } from './internal/pages/home';
 import { RecordPage } from './internal/pages/record';
-import { tasksStore } from './internal/stores/tasks';
+import { tasksStore } from './stores/tasks';
 
-export const lab1FeatureRoutes: Routes = [
+export const listFeatureRoutes: Routes = [
   {
     path: '',
     providers: [tasksStore],

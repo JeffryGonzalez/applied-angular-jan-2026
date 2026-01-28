@@ -35,15 +35,18 @@ export const routes: Routes = [
         (r) => r.countingFeatureRoutes,
       ),
   },
-  {
-    path: 'jefflabs',
-    loadChildren: () =>
-      import('./areas/labs/lab1jeff/lab1-landing/lab1.routes').then((r) => r.lab1FeatureRoutes),
-  },
+
   {
     path: 'lab1',
     loadChildren: () =>
       import('./areas/labs/lab1/lab1-landing/lab1.routes').then((r) => r.lab1Routes),
+  },
+  {
+    path: 'tasks',
+    loadChildren: () =>
+      import('./areas/tasks/feature-list/list-landing/list.routes').then(
+        (r) => r.listFeatureRoutes,
+      ),
   },
   {
     path: '**',

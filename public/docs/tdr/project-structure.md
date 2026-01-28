@@ -4,12 +4,11 @@
 
 The [Angular Style Guide](https://angular.dev/style-guide) is a pretty good source for the thinking that needs to go into building an app that will be maintained by a team of developers over a period of time.
 
-##  The Structure I am Currently Using
+## The Structure I am Currently Using
 
 This changes often, but this one has started to really stick around. The important thing is to have some consistency.
 
 Most of this thinking comes from this post about [Modern Architecture with Angular](https://www.angulararchitects.io/en/blog/modern-architectures-with-angular-part-1-strategic-design-with-sheriff-and-standalone-components/)
-
 
 ```
 /src/
@@ -37,7 +36,7 @@ Most of this thinking comes from this post about [Modern Architecture with Angul
 
 ## Application Development and Features
 
-If you are building an Angular library, your structure would differ from this most likely. But I mostly work as an Application Developer, which means I am paid to deliver *features* to my customers, so I structure my application source code around that reality.
+If you are building an Angular library, your structure would differ from this most likely. But I mostly work as an Application Developer, which means I am paid to deliver _features_ to my customers, so I structure my application source code around that reality.
 
 ### Applications are a Collection of "Areas"
 
@@ -49,13 +48,13 @@ In this structure, the `app` is the `root` of our application - that means it's 
 
 #### Each Area Has Features
 
-Features are usually components but they are components that are specific to that area. These are usually "smart" components - which usually means they are *routed* to.
+Features are usually components but they are components that are specific to that area. These are usually "smart" components - which usually means they are _routed_ to.
 
-Inside a feature, you are restricted to using only "stuff" that is part of your feature, **or** things that are held in common for that feature, which would be in the feature's `ui`, `utils`, or `data` folders. They *may* use things from any `/shared/**/*/` folder. They may also use things from the "ultimate shared" folder, the `node_modules`. 
+Inside a feature, you are restricted to using only "stuff" that is part of your feature, **or** things that are held in common for that feature, which would be in the feature's `ui`, `utils`, or `data` folders. They _may_ use things from any `/shared/**/*/` folder. They may also use things from the "ultimate shared" folder, the `node_modules`.
 
 ##### Each Area May Have Ui Components
 
-These are components that are presentational and used across the various features of the area. 
+These are components that are presentational and used across the various features of the area.
 
 ##### Each Area May Have Utilities
 
@@ -67,25 +66,21 @@ These are our "View Models" used in the feature, as well as any associated store
 
 #### The App May Have Shared Code
 
-Consider anything added to `node_modules` to be globally shared. You may remember from your computer science 102 course (usually called something like *Global is Bad*) that this can lead to problems. Versioning issues, licensing issues, security issues, etc. 
+Consider anything added to `node_modules` to be globally shared. You may remember from your computer science 102 course (usually called something like _Global is Bad_) that this can lead to problems. Versioning issues, licensing issues, security issues, etc.
 
-> **Be *very* conservative and disciplined about taking on NPM dependencies** Using shared libraries is always an expedient, and be sure it is worth it before you take on a dependency. 
+> **Be _very_ conservative and disciplined about taking on NPM dependencies** Using shared libraries is always an expedient, and be sure it is worth it before you take on a dependency.
 
 Things that are created by your team and to be shared in "common" across your application should be placed in the `/src/app/shared/*` directory. This directory can mirror the structure of any feature (have a `features`, `ui`, `utils` and `data` directories), or - because there can end up being a lot of these things - be refined into things like `shared/ui-common`, `shared/ui-layouts`, etc.
 
-This shared "stuff" has to be treated with a bit of reverence. Changes or regressions here will have impact across every other area that is using them. They are a good candidate for *unit-integration* testing. See the testing section for more details on this.
+This shared "stuff" has to be treated with a bit of reverence. Changes or regressions here will have impact across every other area that is using them. They are a good candidate for _unit-integration_ testing. See the testing section for more details on this.
 
 ## What is the Point of This?
 
-
-
 ![Delivery Cadence](/docs/deployments.excalidraw.svg)
 
-In delivering software over the life of an application, areas have different cadences of release. By minimizing the coupling between the areas of our application, we help ensure a smaller "blast radius" of changes within a particular area not impacting other areas. 
+In delivering software over the life of an application, areas have different cadences of release. By minimizing the coupling between the areas of our application, we help ensure a smaller "blast radius" of changes within a particular area not impacting other areas.
 
 > **This is more important that "eliminating duplication" in my opinion**
-
-
 
 When features are introduced, they tend to have a burst of releases as we "stabilize" (e.g. figure out) what that feature is all about.
 
@@ -94,7 +89,6 @@ When features are introduced, they tend to have a burst of releases as we "stabi
 The other benefit of doing this is that by using deferred (e.g. "lazy" ) loading of features, they can be put into separate bundles and delivered separately to the users of our application. More on this in the class.
 
 ### Baseline Build
-
 
 Running `ng build` on a project provides this:
 
@@ -136,10 +130,9 @@ If a user had visited this app before, but before this deployment, they would ha
 - Http Requests: 1
 - Bytes: 477
 
-
 ### Changing Something in Shared
 
-If that same user visits after we do a deployment that *only* changes something in `shared` that is used across all of our features:
+If that same user visits after we do a deployment that _only_ changes something in `shared` that is used across all of our features:
 
 Making a small change in `shared/ui-common/layouts` and doing another build produces this:
 
@@ -166,5 +159,3 @@ They would have to:
 That's about a ~4000% increase in bytes transferred, and quadrupling of http requests.
 
 > **Note** Changing a package in `node_modules` is the same, but usually impacts every bundle.
-
-

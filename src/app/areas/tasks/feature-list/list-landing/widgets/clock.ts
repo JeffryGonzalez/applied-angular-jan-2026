@@ -1,15 +1,14 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  effect,
-  signal,
-  output,
+  Component,
   computed,
+  effect,
   inject,
+  signal,
 } from '@angular/core';
+import { padHours, padMinutes, padSeconds } from '@ht/shared/util-dates/padding';
 import { NgIcon } from '@ng-icons/core';
 import { tasksStore } from '../stores/tasks';
-import { padHours, padMinutes, padSeconds } from '@ht/shared/util-dates/padding';
 
 export type Task = {
   startTime: Date;

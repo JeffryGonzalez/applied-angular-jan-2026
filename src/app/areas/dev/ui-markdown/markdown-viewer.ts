@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/no-output-on-prefix */
 import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { MarkdownComponent } from 'ngx-markdown';
 

@@ -2,7 +2,7 @@
 
 ## Scaffold a New Area
 
-You will create a new area and feature for this lab. 
+You will create a new area and feature for this lab.
 
 1. In VS Code, right click on the `/src/app/areas` folder and select "New Folder". Name the folder `labs`.
 2. Using the NPM SCRIPTS section at the bottom of the Explorer view in VS Code, find the `scaffold` command and hit the "play" button.
@@ -19,7 +19,6 @@ You will create a new area and feature for this lab.
       2. The title should be `Lab 1`
       3. The icon should be `lucideFlaskConical`
 7. Open your app in the browser, check that the link for Lab 1 exists on the left navigation bar and works properly.
-
 
 ## Warm Up Round: Create A Clock
 
@@ -41,18 +40,18 @@ Using the DaisyUi [Clock Countdown](https://daisyui.com/components/countdown/#cl
 
 ## Extract the Clock To It's Own Component
 
-1. Highlight *just* the entire span for the clock (e.g. `<span class="countdown ..."> ... </span>`) and cut it (Ctrl+X).
+1. Highlight _just_ the entire span for the clock (e.g. `<span class="countdown ..."> ... </span>`) and cut it (Ctrl+X).
 2. In the `/areas/labs/lab1-landing/internal` folder, create a new folder called `widgets` and in that folder a file called `clock.ts`.
 3. In the `clock.ts` file, type `ngrc` and hit tab to use the refactor component snippet.
 4. The selector should be `app-labs-lab1-clock`.
 5. Move the relevant code from the `home.ts` to fix the build errors in this new component.
-6. Notice that the clock no longer is displayed on the top right. 
+6. Notice that the clock no longer is displayed on the top right.
    1. See if you can fix that.
-   
-### Hints
-- The CSS Issue: There are many ways to fix this. The simplest I found was to move the class `ml-auto` from the root `<span>` on the component to a `host` binding on the component.
--  To see my code [Look Here](./code/extract-component.md)
 
+### Hints
+
+- The CSS Issue: There are many ways to fix this. The simplest I found was to move the class `ml-auto` from the root `<span>` on the component to a `host` binding on the component.
+- To see my code [Look Here](./code/extract-component.md)
 
 ## Make the Clock A Task Timer
 
@@ -64,12 +63,13 @@ Using the DaisyUi [Clock Countdown](https://daisyui.com/components/countdown/#cl
    1. A "start" button with the icon `lucidePlay`
    2. A "cancel" button with the icon `lucideCircleSlash`
    3. A "done" button with the icon `lucideX`
-   
+
 Mine looks like this:
 
 ![alt text](buttons.png)
 
 ### Hints
+
 - [Here's Mine ](./code/task-timer-1.md)
 
 ### Buttons as State Machine
@@ -78,7 +78,7 @@ Mine looks like this:
 2. When the play icon is clicked, the cancel and done buttons should be displayed.
 3. If either the cancel or done buttons are clicked, they disappear, and the play button reappears.
 4. (Bonus) if we are recording a task (the play button is selected), animate the clock portion with a TailwindCss `animate-pulse` animation.
-   
+
 ## Using An Output
 
 ### Using an Output

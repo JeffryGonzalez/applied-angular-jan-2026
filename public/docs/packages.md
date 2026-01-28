@@ -2,8 +2,6 @@
 
 Overview of the libraries and packages used in this project.
 
-
-
 ## Testing
 
 ### Playwright
@@ -16,12 +14,12 @@ This project uses [Playwright](https://playwright.dev) for **System** Testing.
 
 For developer testing (non-automated) while running the application, this app uses [Mock Service Workers](https://mswjs.io)
 
-
--  `msw`
-
+- `msw`
 
 During System tests, it uses:
- - `@msw/playwright`
+
+- `@msw/playwright`
+
 ## UI Related
 
 During the creation of this project, I chose `Tailwind` or processing my CSS. I added some additional plugins.
@@ -30,25 +28,26 @@ During the creation of this project, I chose `Tailwind` or processing my CSS. I 
 - `@tailwindcss/typography`
 - `daisyui` [See DaisyUi](https://daisyui.com)
 
-
 For Icons, I use `ng-icons` with the `lucide` [Icon pack](https://lucide.dev/icons/).
 
 - `@ng-icons/core`
 - `@ng-icons/lucide`
 
 In the developer section (which you are looking at now) I used `ngx-markdown` to convert markdown to Angular components.
+
 - `clipboard`
 - `marked`
 - `ngx-markdown`
 - `prismjs`
-  
-## State 
+
+## State
 
 All from the fine folks at [ngrx.io](https://ngrx.io)
+
 - `@ngrx/operators`
 - `@ngrx/signals`
 
-## Utility 
+## Utility
 
 ### Api Generation
 
@@ -60,7 +59,6 @@ Generating types from [OpenApi specs](https://spec.openapis.org/) (swagger docum
 
 There is an NPM script in the `package.json` file you can run. Put an OpenApi spec in the `/open-api-specs/specification.json`. It will generate types (including Zod schemas or those types) in the `src/areas/shared/api/` folder.
 
-
 ### Module Boundaries
 
 This will be discussed more in the [Module Boundaries](dev/viewer/boundaries) section.
@@ -68,12 +66,3 @@ This will be discussed more in the [Module Boundaries](dev/viewer/boundaries) se
 - `@softarc/detective`
 - `@softarc/eslint-plugin-sheriff`
 - `@softarc/sheriff-core`
-
-
-
-
-
-
-
-
-

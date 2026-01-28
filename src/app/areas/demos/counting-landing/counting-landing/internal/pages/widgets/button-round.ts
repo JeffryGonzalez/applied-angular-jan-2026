@@ -1,11 +1,10 @@
 import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  computed,
-  Host,
-  output,
   booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
 } from '@angular/core';
 
 @Component({

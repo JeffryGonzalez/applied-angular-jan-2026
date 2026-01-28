@@ -14,6 +14,4 @@ It's also available as an NPM script called `scaffold`.
 4. Give your landing feature a name, like `pizza`.
 5. Party!
 
-
 > **Note**: This is using the `.templates` directory in this project. I have VSCode hide it (look for the setting in `.vscode/settings.json`) and it is using a library called `simple-scaffold`
-

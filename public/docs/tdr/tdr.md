@@ -1,9 +1,8 @@
 # Technical Discussion Records
 
-
 Based on Architectural Decision Records (ADRs) See
 [https://adr.github.io/](https://adr.github.io/), Technical Discussion Records
- are a common technique for a
+are a common technique for a
 team to share the decisions made on the architecture and technical
 implementation of an application, especially when there are multiple _choices_
 that could be made for a certain approach.
