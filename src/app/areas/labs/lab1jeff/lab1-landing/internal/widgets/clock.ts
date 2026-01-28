@@ -5,8 +5,11 @@ import {
   signal,
   output,
   computed,
+  inject,
 } from '@angular/core';
 import { NgIcon } from '@ng-icons/core';
+import { tasksStore } from '../stores/tasks';
+import { padHours, padMinutes, padSeconds } from '@ht/shared/util-dates/padding';
 
 export type Task = {
   startTime: Date;
@@ -79,7 +82,7 @@ export type Task = {
 })
 export class Clock {
   inTaskRecording = signal(false);
-  taskAccomplished = output<Task>();
+  store = inject(tasksStore);
   tick = signal<Date>(new Date());
 
   private startTime = signal<Date | null>(null);
@@ -107,18 +110,6 @@ export class Clock {
       minutes: padMinutes(elapsedMs),
       seconds: padSeconds(elapsedMs),
     };
-
-    function padSeconds(ms: number): number {
-      return Math.floor((ms % (1000 * 60)) / 1000);
-    }
-
-    function padMinutes(ms: number): number {
-      return Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-    }
-
-    function padHours(ms: number): number {
-      return Math.floor(ms / (1000 * 60 * 60));
-    }
   });
 
   constructor() {
@@ -145,7 +136,7 @@ export class Clock {
   }
   finishTask() {
     this.inTaskRecording.set(false);
-    this.taskAccomplished.emit({
+    this.store.addTask({
       startTime: this.startTime() || new Date(),
       endTime: new Date(),
     });

@@ -41,14 +41,6 @@ export default defineConfig([
 
     processor: angular.processInlineTemplates,
     rules: {
-      'no-restricted-syntax': [
-        'warn',
-        {
-          selector:
-            "Decorator[expression.callee.name='Injectable'] > CallExpression[arguments.length=1] > ObjectExpression > Property[key.name='providedIn'][value.value='root']",
-          message: "Are you sure you don't want to just create a provider for this?",
-        },
-      ],
       '@typescript-eslint/no-invalid-void-type': ['off'],
 
       '@typescript-eslint/naming-convention': [

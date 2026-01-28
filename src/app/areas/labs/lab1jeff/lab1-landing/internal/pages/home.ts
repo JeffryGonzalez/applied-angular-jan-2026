@@ -1,7 +1,6 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
-import { Task } from '../widgets/clock';
 import { tasksStore } from '../stores/tasks';
 
 // Creating a provider WHEREEVER means you are saying "create a new instance of this thing when injected here"
@@ -20,15 +19,22 @@ import { tasksStore } from '../stores/tasks';
             <th>Start Time</th>
             <th>End Time</th>
             <th>Total Minutes</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          @for (task of taskList(); track task.startTime) {
-            <tr>
-              <th>...</th>
+          @for (task of store.taskList(); track task.startTime) {
+            <tr [title]="task.id" class=" animate-fade-out">
+              <th>{{ task.description }}</th>
               <td>{{ task.startTime | date: 'shortTime' }}</td>
               <td>{{ task.endTime | date: 'shortTime' }}</td>
               <td>{{ task.minutes }}</td>
+              <td colspan="5 ">
+                <button class="btn btn-error btn-circle" (click)="store.deleteTask(task)">X</button>
+                <button (click)="store.changeDescription(task, 'New Description')">
+                  Change Description
+                </button>
+              </td>
             </tr>
           } @empty {
             <div class="alert alert-info">
@@ -37,7 +43,7 @@ import { tasksStore } from '../stores/tasks';
           }
         </tbody>
       </table>
-      @let s = stats();
+      @let s = store.stats();
       <div class="stats shadow flex flex-row bg-base-100 mt-auto p-6">
         <div class="stat place-items-center">
           <div class="stat-title">Number Of Tasks</div>
@@ -62,43 +68,4 @@ import { tasksStore } from '../stores/tasks';
 })
 export class HomePage {
   store = inject(tasksStore);
-  private tasks = signal<Task[]>([
-    {
-      startTime: new Date(),
-      endTime: new Date(new Date().setMinutes(new Date().getMinutes() + 25)),
-    },
-    {
-      startTime: new Date(new Date().setHours(new Date().getHours() - 1)),
-      endTime: new Date(new Date().setMinutes(new Date().getMinutes() + 10)),
-    },
-  ]);
-  handleTask(task: Task) {
-    this.tasks.update((tasks) => [task, ...tasks]);
-  }
-
-  taskList = computed(() => {
-    // return a list of tasks with the number of minutes spent on each task
-    return this.tasks().map((task) => {
-      const minutes = Math.round((task.endTime.getTime() - task.startTime.getTime()) / 1000 / 60);
-      return {
-        ...task,
-        minutes,
-      };
-    });
-  });
-  stats = computed(() => {
-    const totalMinutes = this.taskList().reduce((acc, task) => acc + task.minutes, 0);
-    const totalTasks = this.taskList().length;
-    const averageMinutes = totalTasks === 0 ? 0 : totalMinutes / totalTasks;
-    const longestTask = this.taskList().reduce(
-      (max, task) => (task.minutes > max ? task.minutes : max),
-      0,
-    );
-    return {
-      totalMinutes,
-      totalTasks,
-      averageMinutes,
-      longestTask,
-    };
-  });
 }

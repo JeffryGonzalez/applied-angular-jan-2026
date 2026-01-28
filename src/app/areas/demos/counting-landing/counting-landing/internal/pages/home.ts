@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { tasksStore } from '@ht/labs/lab1jeff/lab1-landing/internal/stores/tasks';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 
 @Component({
@@ -8,4 +9,6 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
   template: ` <app-ui-page title="counting"> </app-ui-page> `,
   styles: ``,
 })
-export class HomePage {}
+export class HomePage {
+  store = inject(tasksStore);
+}
