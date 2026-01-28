@@ -109,5 +109,10 @@ export class App {
       title: 'Canned Demos',
       icon: 'lucideBook',
     },
+    {
+      path: '/lab1',
+      title: 'Lab 1',
+      icon: 'lucideFlaskConical',
+    },
   ]);
 }

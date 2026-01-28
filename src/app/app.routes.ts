@@ -34,6 +34,11 @@ export const routes: Routes = [
       import('./areas/demos/counting-landing/counting-landing/counting.routes').then((r) => r.countingFeatureRoutes),
   },
   {
+    path: 'lab1',
+    loadChildren: () =>
+      import('./areas/labs/lab1-landing/lab1-landing/lab1.routes').then((r) => r.lab1FeatureRoutes),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },
