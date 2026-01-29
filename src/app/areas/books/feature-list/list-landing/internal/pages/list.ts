@@ -1,5 +1,6 @@
+import { httpResource } from '@angular/common/http';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { httpResource } from '@ngrx/signals/http';
+
 import { Book } from '@ht/shared/data/stores/books/internal/types';
 
 @Component({
@@ -16,15 +17,15 @@ import { Book } from '@ht/shared/data/stores/books/internal/types';
         </tr>
       </thead>
       <tbody>
-        @for (book of booksResource.data() || []; track book.Id) {
+        @for (book of booksResource.value() || []; track book.id) {
           <tr>
-            <td>{{ book.Id }}</td>
-            <td>{{ book.Title }}</td>
-            <td>{{ book.Author }}</td>
-            <td>{{ book.Year }}</td>
+            <td>{{ book.id }}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.year }}</td>
           </tr>
         }
-        @if ((booksResource.data() || []).length === 0 && !booksResource.loading()) {
+        @if ((booksResource.value() || []).length === 0 && !booksResource.isLoading) {
           <tr>
             <td colspan="4">
               <div class="alert alert-info">
