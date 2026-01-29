@@ -5,9 +5,14 @@ import { SectionLayout, SectionLink } from '@ht/shared/ui-common/layouts/section
   selector: 'app-list-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SectionLayout],
-  template: ` <app-ui-section-layout title="list" [links]="links()" /> `,
+  template: ` <app-ui-section-layout title="Book List" [links]="links()" /> `,
   styles: ``,
 })
 export class Home {
-  links = signal<SectionLink[]>([]);
+  links = signal<SectionLink[]>([
+    {
+      path: 'preferences',
+      title: 'Preferences',
+    },
+  ]);
 }
