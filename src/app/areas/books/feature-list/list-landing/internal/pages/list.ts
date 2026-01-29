@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { httpResource } from '@angular/common/http';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
+import { Book } from '@ht/shared/data/stores/books/internal/types';
 
 @Component({
   selector: 'app-book-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
   template: `
     <table class="table mb-8">
-      <!-- head -->
       <thead>
         <tr>
           <th>Id</th>
@@ -18,23 +17,25 @@ import { toSignal } from '@angular/core/rxjs-interop';
         </tr>
       </thead>
       <tbody>
-        @for (book of booksResource.value().; track task.startTime) {
-          <tr>
-            <th>...</th>
-            <td>{{ task.startTime | date: 'shortTime' }}</td>
-            <td>{{ task.endTime | date: 'shortTime' }}</td>
-            <td>{{ task.minutes }}</td>
-          </tr>
-        } @empty {
-          <div class="alert alert-info">
-            <p>No Tasks Yet! Get Busy</p>
-          </div>
-        }
+        <tr *ngFor="let book of booksResource.data() || []">
+          <td>{{ book.Id }}</td>
+          <td>{{ book.Title }}</td>
+          <td>{{ book.Author }}</td>
+          <td>{{ book.Year }}</td>
+        </tr>
+        <tr *ngIf="(booksResource.data() || []).length === 0 && !booksResource.loading()">
+          <td colspan="4">
+            <div class="alert alert-info">
+              <p>No Books Yet! Get Busy</p>
+            </div>
+          </td>
+        </tr>
       </tbody>
     </table>
   `,
   styles: ``,
+  standalone: true,
 })
 export class List {
-  booksResource = httpResource(() => '/api/books');
+  booksResource = httpResource<Book[]>(() => '/api/books', {});
 }
