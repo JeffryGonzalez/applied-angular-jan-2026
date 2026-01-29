@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { padHours, padMinutes, padSeconds } from '@ht/shared/util-dates/padding';
 import { NgIcon } from '@ng-icons/core';
 import { tasksStore } from '../../shared/data/stores/tasks/store';
@@ -8,29 +8,38 @@ import { tasksStore } from '../../shared/data/stores/tasks/store';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgIcon],
   template: `
-    <div class="recorder animate-fade-in" [class.hidden]="!store.isRecording()">
+    <div class="fixed top-0 right-4 z-50 flex flex-row  ">
       <div
-        class="fit bg-base-100/90 backdrop-blur-sm shadow rounded-b-lg p-2 items-center flex flex-row"
+        class="bg-base-100/90  delay-300  shadow rounded-b-lg border-l-2  border-r-2 border-base-300 p-2"
       >
-        <span class="w-1/2">
-          <span class="font-mono text-green-400 animate-pulse text-sm p-2 rounded delay-300">
-            {{ elapsedTime().hours }}:{{ elapsedTime().minutes.toString().padStart(2, '0') }}:{{
-              elapsedTime().seconds.toString().padStart(2, '0')
-            }}
+        @if (store.isRecording()) {
+          <span class="" animate.enter="animate-slide-down" animate.leave="animate-slide-up">
+            <span class="font-mono text-green-400 animate-pulse text-sm p-2 rounded delay-300">
+              {{ elapsedTime().hours }}:{{ elapsedTime().minutes.toString().padStart(2, '0') }}:{{
+                elapsedTime().seconds.toString().padStart(2, '0')
+              }}
+            </span>
           </span>
-        </span>
-        <button class="btn btn-xs btn-circle btn-success mr-2" (click)="store.finishRecording()">
-          <ng-icon name="lucideCheckCircle" size="20"></ng-icon>
-        </button>
-        <button class="btn btn-xs btn-circle btn-error mr-2" (click)="store.cancelRecording()">
-          <ng-icon name="lucideCircleSlash" size="20"></ng-icon>
-        </button>
+          <button class="btn btn-xs btn-circle btn-success mr-2" (click)="done('keep')">
+            <ng-icon name="lucideCheckCircle" size="20"></ng-icon>
+          </button>
+          <button class="btn btn-xs btn-circle btn-error mr-2" (click)="done('cancel')">
+            <ng-icon name="lucideCircleSlash" size="20"></ng-icon>
+          </button>
+        }
       </div>
+      <button
+        class="btn btn-xs btn-circle btn-success mr-2"
+        (click)="store.startRecording()"
+        [class.invisible]="store.isRecording()"
+      >
+        <ng-icon name="lucideVoicemail" size="20"></ng-icon>
+      </button>
     </div>
   `,
   styles: ``,
   host: {
-    class: '',
+    class: 'position-absolute top-0 right-0 h-24 w-24',
   },
 })
 export class Recorder {
@@ -60,4 +69,13 @@ export class Recorder {
       seconds: padSeconds(elapsedMs),
     };
   });
+
+  how = signal<'hide' | 'show'>('hide');
+  done(why: 'cancel' | 'keep') {
+    if (why === 'cancel') {
+      this.store.cancelRecording();
+    } else {
+      this.store.finishRecording();
+    }
+  }
 }
