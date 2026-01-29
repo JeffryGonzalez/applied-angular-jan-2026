@@ -1,6 +1,5 @@
-import { httpResource } from '@angular/common/http';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-
+import { httpResource } from '@ngrx/signals/http';
 import { Book } from '@ht/shared/data/stores/books/internal/types';
 
 @Component({
@@ -17,19 +16,23 @@ import { Book } from '@ht/shared/data/stores/books/internal/types';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let book of booksResource.data() || []">
-          <td>{{ book.Id }}</td>
-          <td>{{ book.Title }}</td>
-          <td>{{ book.Author }}</td>
-          <td>{{ book.Year }}</td>
-        </tr>
-        <tr *ngIf="(booksResource.data() || []).length === 0 && !booksResource.loading()">
-          <td colspan="4">
-            <div class="alert alert-info">
-              <p>No Books Yet! Get Busy</p>
-            </div>
-          </td>
-        </tr>
+        @for (book of booksResource.data() || []; track book.Id) {
+          <tr>
+            <td>{{ book.Id }}</td>
+            <td>{{ book.Title }}</td>
+            <td>{{ book.Author }}</td>
+            <td>{{ book.Year }}</td>
+          </tr>
+        }
+        @if ((booksResource.data() || []).length === 0 && !booksResource.loading()) {
+          <tr>
+            <td colspan="4">
+              <div class="alert alert-info">
+                <p>No Books Yet! Get Busy</p>
+              </div>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   `,
