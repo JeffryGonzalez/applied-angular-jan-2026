@@ -30,7 +30,6 @@ type book = {
           </div>
         }
       </div>
-      <pre>{{ booksResource.value() | json }}</pre>
     </app-ui-page>
   `,
   styles: ``,
