@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { Home } from './internal/home';
-import { HomePage } from './internal/pages/home';
-
+import { BooksPage } from './internal/pages/books';
 
 export const listFeatureRoutes: Routes = [
   {
@@ -11,8 +10,18 @@ export const listFeatureRoutes: Routes = [
     children: [
       {
         path: '',
-        component: HomePage
-      }
-    ]
+        component: BooksPage,
+        // children: [
+        //   {
+        //     path: '/books',
+        //     component: ListComponent,
+        //   },
+        //   {
+        //     path: '/stats',
+        //     component: StatsComponent,
+        //   },
+        // ],
+      },
+    ],
   },
 ];
