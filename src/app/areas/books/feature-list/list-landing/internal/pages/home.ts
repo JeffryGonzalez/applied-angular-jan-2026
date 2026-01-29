@@ -1,7 +1,8 @@
 import { httpResource } from '@angular/common/http';
-import { Component, ChangeDetectionStrategy, computed, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, signal, WritableSignal } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
 import { Stats } from '../widgets/stats';
+import { prefs } from './preferences'
 
 export type book = {
   id: number;
@@ -18,31 +19,6 @@ export type book = {
   template: `
     <app-ui-page title="list">
       <app-stats-bar [bookArray]="booksInOrder() ?? []"></app-stats-bar>
-      <div class="flex flex-row-reverse"></div>
-      <div class = "flex flex-row-reverse">
-        <label class="input">
-          <span class="label">Sort by Publish Date</span>
-          <input type="radio" name="radio-6" class="radio radio-accent" [checked]="sortBy() === 'year'" (click)="setSort('year')"/>
-        </label>
-        <label class="input">
-          <span class="label">Sort by Author</span>
-          <input type="radio" name="radio-6" class="radio radio-accent" [checked]="sortBy() === 'author'" (click)="setSort('author')" />
-        </label>
-        <label class="input">
-          <span class="label">Sort by Title</span>
-          <input type="radio" name="radio-6" class="radio radio-accent" [checked]="sortBy() === 'title'" (click)="setSort('title')" />
-        </label>
-      </div>
-      <div class = "flex flex-row-reverse">
-        <label class="input">
-          <span class="label">Descending</span>
-          <input type="radio" name="radio-7" class="radio radio-accent" [checked]="ascDesc() === 'dsc'" (click)="ascDesc.set('dsc')" />
-        </label>
-        <label class="input">
-          <span class="label">Ascending</span>
-          <input type="radio" name="radio-7" class="radio radio-accent" [checked]="ascDesc() === 'asc'" (click)="ascDesc.set('asc')"/>
-        </label>
-      </div>
       <div class="flex flex-row flex-wrap">
         @for(book of booksInOrder(); track book.id){
         <div class="card w-96 bg-base-100 card-md shadow-sm m-2">
@@ -62,8 +38,6 @@ export type book = {
 })
 export class HomePage {
   protected booksResource = httpResource<book[]>(() => '/api/books');
-  protected sortBy = signal<'title' | 'year' | 'author'>('title');
-  protected ascDesc = signal<'asc' | 'dsc'>('asc');
 
   protected booksInOrder = computed(() => {
     const multiplier = this.ascDesc() === 'asc' ? 1 : -1;
@@ -75,9 +49,23 @@ export class HomePage {
       case 'author':
         return this.booksResource?.value()?.sort((a, b) => multiplier * a.author.localeCompare(b.author));
     }
+    return this.booksResource?.value() ?? [];
   })
 
-  protected setSort(sortType: 'title' | 'year' | 'author'){
-    this.sortBy.set(sortType);
+  private sortBy: WritableSignal<'title' | 'year' | 'author'>;
+  private ascDesc: WritableSignal<'asc' | 'dsc'>;
+
+  constructor(){
+    const prefsItem = localStorage.getItem('prefs');
+    
+    if(!prefsItem){
+        this.sortBy = signal('title');
+        this.ascDesc = signal('asc');
+    } else {
+        const prefs = JSON.parse(prefsItem) as prefs;
+        this.sortBy = signal(prefs.sortyBy);
+        this.ascDesc = signal(prefs.ascDsc);
+    }
   }
+  
 }
