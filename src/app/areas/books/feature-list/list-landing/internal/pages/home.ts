@@ -1,4 +1,3 @@
-import { JsonPipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { PageLayout } from '@ht/shared/ui-common/layouts/page';
@@ -13,7 +12,7 @@ type book = {
 @Component({
   selector: 'ht-home-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [PageLayout, JsonPipe],
+  imports: [PageLayout],
   template: `
     <app-ui-page title="list">
       <div class="flex flex-row flex-wrap">
