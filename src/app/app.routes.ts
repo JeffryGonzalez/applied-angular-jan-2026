@@ -58,13 +58,13 @@ export const routes: Routes = [
         (r) => r.breakfastFeatureRoutes,
       ),
   },
+
   {
     path: 'books',
-    loadChildren: () =>
-      import('./areas/books/feature-list/list-landing/list.routes').then(
-        (r) => r.listFeatureRoutes,
-      ),
+    loadComponent: () =>
+      import('./areas/books/feature-list/books-list.component').then((m) => m.BooksListComponent),
   },
+
   {
     path: '**',
     redirectTo: 'home',
