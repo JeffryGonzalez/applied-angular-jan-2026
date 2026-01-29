@@ -66,6 +66,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'lab2',
+    loadChildren: () =>
+      import('./areas/Lab 2/feature-lab2/lab2-landing/lab2.routes').then((r) => r.lab2FeatureRoutes),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

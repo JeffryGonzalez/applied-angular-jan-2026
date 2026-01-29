@@ -189,7 +189,6 @@ export class App {
       path: '/dev',
       title: 'Dev Stuff',
     },
-
     {
       path: '/counting',
       title: 'Counting',
@@ -200,7 +199,6 @@ export class App {
       title: 'Canned Demos',
       icon: 'lucideBook',
     },
-
     {
       path: '/lab1',
       title: 'Lab 1',
@@ -211,5 +209,10 @@ export class App {
       title: 'Lab 2 - Books',
       icon: 'lucideFlaskConical',
     },
+    {
+      path: '/lab2',
+      title: 'Lab 2 - Lab 1 REDO',
+      icon: 'lucideFlaskConical',
+    }
   ]);
 }
