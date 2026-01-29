@@ -1,4 +1,4 @@
-# Books
+# Books (Cory Neiderman)
 
 The mock API has an endpoint at `/api/books`. It supports a `GET` request.
 
@@ -83,7 +83,6 @@ When you view the page now, you should just see the raw array of books.
 Now, let's convert the raw data displayed into an HTML table that displays the id, title, author, and year.
 
 Choose something that works for you from [DaisyUi](https://daisyui.com/components/table/) and use that.
-
 
 ## Statistics
 
