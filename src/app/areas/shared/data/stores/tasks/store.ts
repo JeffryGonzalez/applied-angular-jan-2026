@@ -19,7 +19,7 @@ type TasksState = {
     minutes: number;
     seconds: number;
   };
-  _tick: Date;
+  _tick: Date; // in a store, an underscore on a member is private, in a class, use a # or the private keyword.
   startTime: Date | null;
 };
 export const tasksStore = signalStore(
@@ -70,16 +70,6 @@ export const tasksStore = signalStore(
           }),
         );
       },
-      addTask: (task: Task) => {
-        const minutes = Math.round((task.endTime.getTime() - task.startTime.getTime()) / 1000 / 60);
-        const taskEntity: TaskEntity = {
-          ...task,
-          id: crypto.randomUUID(),
-          description: 'None',
-          minutes,
-        };
-        patchState(store, addEntity(taskEntity));
-      },
     };
   }),
   withComputed((store) => {
@@ -99,6 +89,7 @@ export const tasksStore = signalStore(
         };
       }),
       taskList: computed(() => {
+        // Promise you will see why later...
         return store.entities();
       }),
     };

@@ -36,7 +36,7 @@ import { tasksStore } from '../../shared/data/stores/tasks/store';
 export class Recorder {
   protected store = inject(tasksStore);
 
-  elapsedTime = computed(() => {
+  protected elapsedTime = computed(() => {
     if (!this.store.isRecording()) {
       return { hours: padHours(0), minutes: padMinutes(0), seconds: padSeconds(0) };
     }

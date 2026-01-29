@@ -37,5 +37,8 @@ import { tasksStore } from '../data/stores/tasks/store';
   styles: ``,
 })
 export class SpeedDial {
+  // Angular Style Guide now says you should default to declaring properties on a component as
+  // "protected" - weird...
+  // Neither public, private, nor protected exist in JavaScript. They are typescript inventions.
   protected store = inject(tasksStore);
 }

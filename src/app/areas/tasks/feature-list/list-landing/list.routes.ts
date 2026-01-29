@@ -8,6 +8,7 @@ export const listFeatureRoutes: Routes = [
   {
     path: '',
     // providers: [tasksStore],
+    // provideIfNotAlreadyInherited: []
     component: Home,
     children: [
       {

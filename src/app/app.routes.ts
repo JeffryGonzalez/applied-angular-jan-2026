@@ -52,6 +52,11 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'breakfast',
+    loadChildren: () =>
+      import('./areas/food/feature-breakfast/breakfast-landing/breakfast.routes').then((r) => r.breakfastFeatureRoutes),
+  },
+  {
     path: '**',
     redirectTo: 'home',
   },

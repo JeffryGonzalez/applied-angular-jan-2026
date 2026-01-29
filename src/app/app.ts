@@ -88,28 +88,28 @@ import { tasksStore } from '@ht/shared/data/stores/tasks/store';
       <div class="modal-box">
         <h3 class="text-lg font-bold">Keyboard Shortcuts</h3>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">Space</kbd> - Show
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">Q</kbd> - Show
           this help modal
         </p>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">H</kbd> - Navigate
-          to help page
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">H</kbd> -
+          Navigate to help page
         </p>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">G</kbd> - Go to
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">G</kbd> - Go to
           home page
         </p>
         <p class="pt-4 font-bold">Task Recording:</p>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">R</kbd> - Start
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">R</kbd> - Start
           recording a task
         </p>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">D</kbd> - Stop
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">D</kbd> - Stop
           recording a task
         </p>
         <p>
-          <kbd class="kbd">⌃</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">X</kbd> - Cancel
+          <kbd class="kbd">Alt</kbd> + <kbd class="kbd">⇧</kbd> + <kbd class="kbd">X</kbd> - Cancel
           recording a task
         </p>
         <p class="py-4">Press ESC key or click outside to close</p>
@@ -123,12 +123,12 @@ import { tasksStore } from '@ht/shared/data/stores/tasks/store';
   styles: [],
   host: {
     tabindex: '1',
-    '(keyup.control.shift.space)': 'showModal()',
-    '(keyup.control.shift.h)': 'onHelpRequested()',
-    '(keyup.control.shift.g)': 'goHome()',
-    '(keyup.control.shift.r)': 'recordTask()',
-    '(keyup.control.shift.d)': 'stopRecordTask()',
-    '(keyup.control.shift.x)': 'cancelRecordTask()',
+    '(keyup.alt.shift.q)': 'showModal()',
+    '(keyup.alt.shift.h)': 'onHelpRequested()',
+    '(keyup.alt.shift.g)': 'goHome()',
+    '(keyup.alt.shift.r)': 'recordTask()',
+    '(keyup.alt.shift.d)': 'stopRecordTask()',
+    '(keyup.alt.shift.x)': 'cancelRecordTask()',
   },
 })
 export class App {
@@ -141,6 +141,7 @@ export class App {
     if (this.taskStore.isRecording()) {
       return;
     }
+
     this.taskStore.startRecording();
   }
 
