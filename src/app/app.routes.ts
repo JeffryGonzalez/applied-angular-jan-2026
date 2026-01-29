@@ -61,9 +61,7 @@ export const routes: Routes = [
   {
     path: 'books',
     loadChildren: () =>
-      import('./areas/books/feature-list/list-landing/list.routes').then(
-        (r) => r.listFeatureRoutes,
-      ),
+      import('./areas/labs/lab2/books/list.routes').then((r) => r.listFeatureRoutes),
   },
   {
     path: '**',
