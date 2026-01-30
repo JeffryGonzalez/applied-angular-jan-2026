@@ -1,16 +1,15 @@
 import { Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
+import { tasksStore } from '@ht/shared/data/stores/tasks/store';
 import { SectionLink } from '@ht/shared/ui-common/layouts/section';
 import { authStore } from '@ht/shared/util-auth/store';
-import { IconName, NgIcon } from '@ng-icons/core';
 import { Recorder } from '@ht/tasks/ui-recorder/recorder';
-import { SpeedDial } from '@ht/shared/ui-tasks/speed-dial';
-import { tasksStore } from '@ht/shared/data/stores/tasks/store';
+import { IconName, NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIcon, Recorder, SpeedDial],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, NgIcon, Recorder],
   template: `
     <app-task-recorder #recorder></app-task-recorder>
     <div class="drawer lg:drawer-open">
@@ -118,7 +117,6 @@ import { tasksStore } from '@ht/shared/data/stores/tasks/store';
         <button>close</button>
       </form>
     </dialog>
-    <app-tasks-speed-dial />
   `,
   styles: [],
   host: {

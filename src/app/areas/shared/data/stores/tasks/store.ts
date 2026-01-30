@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { httpResource } from '@angular/common/http';
 import { computed, effect } from '@angular/core';
 import {
   patchState,
@@ -10,28 +10,31 @@ import {
   withProps,
   withState,
 } from '@ngrx/signals';
+import { addEntity, removeEntity, setEntities, updateEntity } from '@ngrx/signals/entities';
+import { withLocalTaskLog } from './internal/local-log-feature';
 import {
-  addEntity,
-  removeEntity,
-  setEntities,
-  updateEntity,
-  withEntities,
-} from '@ngrx/signals/entities';
-import { Task } from './internal/types';
-import { httpResource } from '@angular/common/http';
+  withTaskRecording,
+  setStartRecording,
+  setStopRecording,
+} from './internal/task-recording-feature';
 
-export type TaskEntity = Task & { minutes: number; id: string; description: string };
+export type TaskEntity = {
+  id: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  minutes: number;
+};
 
 type TasksState = {
-  isRecording: boolean;
   currentTime: {
     hours: number;
     minutes: number;
     seconds: number;
   };
   _tick: Date; // in a store, an underscore on a member is private, in a class, use a # or the private keyword.
-  startTime: Date | null;
-  _mutatingTasks: string[];
+
+  //   _mutatingTasks: string[];
 };
 
 type RawTaskFromServer = {
@@ -43,34 +46,30 @@ type RawTaskFromServer = {
 };
 
 export const tasksStore = signalStore(
-  // state is like "initialState" in redux. What's there?
-  // these are all "read only" signals, automatically created for you.
   withProps(() => {
     const serverTasks = httpResource<RawTaskFromServer[]>(() => '/api/tasks', {});
     return {
       _serverTasks: serverTasks,
     };
   }),
+  withLocalTaskLog(),
+  withTaskRecording(),
   withState<TasksState>({
-    isRecording: false,
     currentTime: {
       hours: 0,
       minutes: 0,
       seconds: 0,
     },
     _tick: new Date(),
-    startTime: null,
-    _mutatingTasks: [],
+
+    //   _mutatingTasks: [],
   }),
-  withEntities<TaskEntity>(),
+
   // instead of having a reducer that takes actions and switches on them, just create methods.
   withMethods((store) => {
     return {
       // async is fine in Angular. You can async and await like the snobby react bros now.
       syncToServer: async (task: TaskEntity) => {
-        patchState(store, {
-          _mutatingTasks: [...store._mutatingTasks(), task.id],
-        });
         await fetch('/api/tasks', {
           method: 'POST',
           headers: {
@@ -85,44 +84,32 @@ export const tasksStore = signalStore(
         });
         patchState(
           store,
-          { _mutatingTasks: store._mutatingTasks().filter((id) => id !== task.id) },
+
           removeEntity(task.id),
         );
         store._serverTasks.reload(); // this can be whatever
         // what I'm doing is saying "reload the whole list"
         // if the post returned a new entity, you *could* just add it, but this is safest.
       },
-      updateDescription: (task: TaskEntity, newDescription: string) => {
-        patchState(
-          store,
-          updateEntity({
-            id: task.id,
-            changes: {
-              description: newDescription,
-            },
-          }),
-        );
-      },
-      startRecording: () => patchState(store, { isRecording: true, startTime: new Date() }),
-      cancelRecording: () => patchState(store, { isRecording: false, startTime: null }),
+
+      startRecording: () => patchState(store, setStartRecording()),
+      cancelRecording: () => patchState(store, setStopRecording()),
       finishRecording: () => {
-        const task: Task = {
-          startTime: store.startTime()
-            ? store.startTime()!.toISOString()
-            : new Date().toISOString(),
-          endTime: store._tick().toISOString(),
-        };
-        const minutes = Math.round(
-          (store._tick().getTime() - new Date(task.startTime).getTime()) / 1000 / 60,
-        );
+        const startTime = store.startTime();
+        if (!startTime) {
+          throw new Error('No start time recorded');
+        }
+        const endTime = new Date();
+        const minutes = Math.round((endTime.getTime() - startTime.getTime()) / 60000);
         const taskEntity: TaskEntity = {
-          ...task,
           id: crypto.randomUUID(),
           description: 'None',
+          startTime: startTime.toISOString(),
+          endTime: endTime.toISOString(),
           minutes,
         };
 
-        patchState(store, { isRecording: false, startTime: null }, addEntity(taskEntity));
+        patchState(store, setStopRecording(), addEntity(taskEntity));
       },
       deleteTask: (task: TaskEntity) => patchState(store, removeEntity(task.id)),
       changeDescription: (task: TaskEntity, newDescription: string) => {
@@ -141,42 +128,54 @@ export const tasksStore = signalStore(
   withComputed((store) => {
     return {
       stats: computed(() => {
-        const totalMinutes = store.entities().reduce((sum, task) => sum + task.minutes, 0);
-        const totalTasks = store.entities().length;
+        const all = getAllTasks(store.localTasks(), store._serverTasks.value() || []);
+        const localTasks = all.filter((t) => t.isLocal);
+        const serverTasks = all.filter((t) => !t.isLocal);
+        const totalMinutes = all.reduce((sum, task) => sum + task.minutes, 0);
+        const totalMinutesLocal = localTasks.reduce((sum, task) => sum + task.minutes, 0);
+        const totalMinutesServer = serverTasks.reduce((sum, task) => sum + task.minutes, 0);
+        const totalTasks = all.length;
+        const totalLocalTasks = localTasks.length;
+        const totalServerTasks = serverTasks.length;
         const averageMinutes = totalTasks ? Math.round(totalMinutes / totalTasks) : 0;
-        const longestTask = store
-          .entities()
-          .reduce((max, task) => (task.minutes > max ? task.minutes : max), 0);
+        const averageMinutesLocal = totalLocalTasks
+          ? Math.round(totalMinutesLocal / totalLocalTasks)
+          : 0;
+        const averageMinutesServer = totalServerTasks
+          ? Math.round(totalMinutesServer / totalServerTasks)
+          : 0;
+        const longestTask = all.reduce((max, task) => (task.minutes > max ? task.minutes : max), 0);
         return {
-          totalMinutes,
-          totalTasks,
-          averageMinutes,
-          longestTask,
+          minutes: {
+            total: totalMinutes,
+            local: totalMinutesLocal,
+            server: totalMinutesServer,
+          },
+          tasks: {
+            total: totalTasks,
+            local: totalLocalTasks,
+            server: totalServerTasks,
+          },
+          averageMinutes: {
+            total: averageMinutes,
+            local: averageMinutesLocal,
+            server: averageMinutesServer,
+          },
+          longestTask: {
+            total: longestTask,
+            local: localTasks.reduce((max, task) => (task.minutes > max ? task.minutes : max), 0),
+            server: serverTasks.reduce((max, task) => (task.minutes > max ? task.minutes : max), 0),
+          },
         };
       }),
+
       taskList: computed(() => {
         // Promise you will see why later...
+        const localLogEntities = store.entities();
+        const serverTasks = store._serverTasks.value() || [];
 
-        const localTasks = store.entities().map((task) => ({
-          ...task,
-          isLocal: true,
-          isValid: task.description !== 'None',
-          isMutating: false,
-        })); // && task.minutes > 0,
-
-        let serverTasks = store._serverTasks.hasValue() ? store._serverTasks.value() : [];
-        if (serverTasks.length > 0) {
-          serverTasks = serverTasks.map((task) => ({
-            ...task,
-
-            isLocal: false,
-            isValid: true,
-            isMutating: false,
-          }));
-        }
-        return [...localTasks, ...serverTasks].sort(
-          (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
-        ) as (TaskEntity & { isLocal: boolean; isValid: boolean; isMutating: boolean })[];
+        const sorted = getAllTasks(localLogEntities, serverTasks);
+        return sorted;
       }),
     };
   }),
@@ -210,3 +209,77 @@ export const tasksStore = signalStore(
     },
   }),
 );
+
+function getAllTasks(localLogEntities: TaskEntity[], serverTasks: RawTaskFromServer[]) {
+  const mappedLocalTasks = getLocalLogEntities(localLogEntities);
+  const mappedServerTasks = serverTasks.map(mapServerLog());
+  const sorted = getAllTasksSorted(mappedLocalTasks, mappedServerTasks);
+  return sorted;
+}
+
+function getLocalLogEntities(entities: TaskEntity[]) {
+  return entities.map((task) => mapLocalLog(task));
+  function mapLocalLog(task: TaskEntity): {
+    isLocal: boolean;
+    isValid: boolean;
+    isMutating: boolean;
+    startTime: string;
+    endTime: string;
+    minutes: number;
+    id: string;
+    description: string;
+  } {
+    return {
+      ...task,
+      isLocal: true,
+      isValid: task.description !== 'None',
+      isMutating: false,
+    };
+  }
+}
+
+function getAllTasksSorted(
+  localTasks: {
+    isLocal: boolean;
+    isValid: boolean;
+    isMutating: boolean;
+    startTime: string;
+    endTime: string;
+    minutes: number;
+    id: string;
+    description: string;
+  }[],
+  serverTasks: {
+    isLocal: boolean;
+    isValid: boolean;
+    isMutating: boolean;
+    id: string;
+    description: string;
+    startTime: string;
+    endTime: string;
+    minutes: number;
+  }[],
+) {
+  return [...localTasks, ...serverTasks].sort(
+    (a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime(),
+  ) as (TaskEntity & { isLocal: boolean; isValid: boolean; isMutating: boolean })[];
+}
+
+function mapServerLog(): (task: RawTaskFromServer) => {
+  isLocal: boolean;
+  isValid: boolean;
+  isMutating: boolean;
+  id: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  minutes: number;
+} {
+  return (task) => ({
+    ...task,
+
+    isLocal: false,
+    isValid: true,
+    isMutating: false,
+  });
+}

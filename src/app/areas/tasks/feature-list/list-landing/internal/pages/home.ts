@@ -42,7 +42,12 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
           </thead>
           <tbody>
             @for (task of store.taskList(); track task.startTime) {
-              <tr [title]="task.id" class=" animate-fade-out" [class.bg-base-100]="task.isLocal">
+              <tr
+                [title]="task.id"
+                [class.bg-base-100]="task.isLocal"
+                animate.enter="animate-fade-in"
+                animate.leave="animate-fade-out"
+              >
                 <th>{{ task.description }}</th>
                 <td>{{ task.startTime | date: 'shortTime' }}</td>
                 <td>{{ task.endTime | date: 'shortTime' }}</td>
@@ -74,19 +79,31 @@ import { PageLayout } from '@ht/shared/ui-common/layouts/page';
         <div class="stats shadow flex flex-row bg-base-100 mt-auto p-6">
           <div class="stat place-items-center">
             <div class="stat-title">Number Of Tasks</div>
-            <div class="stat-value text-primary">{{ s.totalTasks }}</div>
+            <div class="stat-value text-primary">
+              {{ s.tasks.total }}
+            </div>
+            <div class="stat-desc">{{ s.tasks.local }} local / {{ s.tasks.server }} server</div>
           </div>
           <div class="stat place-items-center">
             <div class="stat-title">Total Minutes on Tasks</div>
-            <div class="stat-value text-primary">{{ s.totalMinutes }}</div>
+            <div class="stat-value text-primary">{{ s.minutes.total }}</div>
+            <div class="stat-desc">{{ s.minutes.local }} local / {{ s.minutes.server }} server</div>
           </div>
           <div class="stat place-items-center">
             <div class="stat-title">Average Length Of Task</div>
-            <div class="stat-value text-primary">{{ s.averageMinutes | number: '1.0-2' }}</div>
+            <div class="stat-value text-primary">
+              {{ s.averageMinutes.total | number: '1.0-2' }}
+            </div>
+            <div class="stat-desc">
+              {{ s.averageMinutes.local }} local / {{ s.averageMinutes.server }} server
+            </div>
           </div>
           <div class="stat place-items-center">
             <div class="stat-title">Longest Time Spent On A Task</div>
-            <div class="stat-value text-primary">{{ s.longestTask }}</div>
+            <div class="stat-value text-primary">{{ s.longestTask.total }}</div>
+            <div class="stat-desc">
+              {{ s.longestTask.local }} local / {{ s.longestTask.server }} server
+            </div>
           </div>
         </div>
       }
